@@ -1,0 +1,60 @@
+version: "3.8"
+
+networks:
+  korbojoyecommerce:
+    driver: bridge
+  korbojoyadmin:
+    driver: bridge
+  korbojoymembers:
+    driver: bridge
+  korbojoyagent:
+    driver: bridge
+  korbojoyvendor: 
+    driver: bridge
+
+services:
+  ecommerce:
+    build:
+      context: ./korbojoyecommerce
+      dockerfile: Dockerfile_APP
+    image: korbojoyecommerce
+    ports:
+      - "8050:3000"
+    networks:
+      - korbojoyecommerce
+  korbojoyadmin:
+    build:
+      context: ./korbojoyadmin
+      dockerfile: Dockerfile_Admin
+    image: korbojoyadmin
+    ports:
+      - "8051:3000"
+    networks:
+      - korbojoyadmin
+  korbojoymembers:
+    build:
+      context: ./korbojoymembers
+      dockerfile: Dockerfile_Member
+    image: korbojoymembers
+    ports:
+      - "8052:3000"
+    networks:
+      - korbojoymembers
+  korbojoyagent:
+    build:
+      context: ./korbojoyagent
+      dockerfile: Dockerfile_Agent
+    image: korbojoyagent
+    ports:
+      - "8053:3000"
+    networks:
+      - korbojoyagent
+  korbojoyvendor:
+    build:
+      context: ./korbojoyvendor
+      dockerfile: Dockerfile_Vendor
+    image: korbojoyvendor
+    ports:
+      - "8054:3000"
+    networks:
+      - korbojoyvendor

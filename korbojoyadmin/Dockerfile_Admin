@@ -1,0 +1,40 @@
+# 1. Install dependencies only when needed
+
+FROM node:16-alpine AS deps
+RUN apk add --no-cache libc6-compat
+
+WORKDIR /korbojoyadmin
+COPY package.json ./
+RUN npm install --frozen-lockfile
+RUN npm install -g npm@latest
+
+# 2. Rebuild the source code only when needed
+
+FROM node:16-alpine AS builder
+WORKDIR /korbojoyadmin
+COPY --from=deps /korbojoyadmin/node_modules ./node_modules
+COPY . .
+RUN npm run build
+
+# 3. Production image, copy all the files and run next
+
+FROM node:16-alpine AS runner
+
+WORKDIR /korbojoyadmin
+
+ENV NODE_ENV production
+
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+
+USER nextjs
+
+COPY --from=builder /korbojoyadmin/public ./public
+COPY --from=builder /korbojoyadmin/.next ./.next
+COPY --from=builder /korbojoyadmin/node_modules ./node_modules
+COPY --from=builder /korbojoyadmin/package.json ./package.json
+COPY --from=builder /korbojoyadmin/.env ./
+
+EXPOSE 3000
+
+CMD ["npm", "start"]

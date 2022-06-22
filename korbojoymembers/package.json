@@ -1,0 +1,28 @@
+{
+  "name": "next-ecom",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "cookies-next": "^2.0.4",
+    "jwt-decode": "^3.1.2",
+    "next": "^12.0.8",
+    "next-auth": "^4.3.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "recoil": "^0.6.1",
+    "sweetalert2": "^11.4.4",
+    "sweetalert2-react-content": "^4.2.0"
+  },
+  "devDependencies": {
+    "eslint": "7.32.0",
+    "eslint-config-next": "12.0.0"
+  },
+  "start": "react-scripts start"
+}
